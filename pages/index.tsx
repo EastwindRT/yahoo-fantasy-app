@@ -1,31 +1,22 @@
 import type { NextPage } from 'next'
-import { useSession, signIn, signOut } from 'next-auth/react'
-import FantasyData from '../components/FantasyData'
+import { useSession, signIn, signOut } from "next-auth/react"
 
 const Home: NextPage = () => {
-  const { data: session, status } = useSession()
+  const { data: session } = useSession()
 
-  if (status === "loading") {
-    return <div>Loading...</div>
-  }
-
-  if (!session) {
+  if (session) {
     return (
-      <div>
-        <h1>Yahoo Fantasy Sports Data</h1>
-        <p>You are not signed in</p>
-        <button onClick={() => signIn('yahoo')}>Sign in with Yahoo</button>
-      </div>
+      <>
+        Signed in as {session.user?.email} <br />
+        <button onClick={() => signOut()}>Sign out</button>
+      </>
     )
   }
-
   return (
-    <div>
-      <h1>Yahoo Fantasy Sports Data</h1>
-      <p>Signed in as {session.user?.name}</p>
-      <button onClick={() => signOut()}>Sign out</button>
-      <FantasyData />
-    </div>
+    <>
+      Not signed in <br />
+      <button onClick={() => signIn("yahoo")}>Sign in with Yahoo</button>
+    </>
   )
 }
 

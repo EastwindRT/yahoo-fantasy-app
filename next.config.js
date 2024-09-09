@@ -11,5 +11,7 @@ module.exports = {
         ]
       }
     ]
-  }
+  },
+  // Optimize for Render
+  output: 'standalone',
 }
