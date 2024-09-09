@@ -4,8 +4,8 @@ import YahooProvider from "next-auth/providers/yahoo"
 export const authOptions: NextAuthOptions = {
   providers: [
     YahooProvider({
-      clientId: process.env.YAHOO_CLIENT_ID!,
-      clientSecret: process.env.YAHOO_CLIENT_SECRET!,
+      clientId: process.env.YAHOO_CLIENT_ID ?? '',
+      clientSecret: process.env.YAHOO_CLIENT_SECRET ?? '',
       authorization: {
         params: {
           scope: 'openid email profile'
@@ -20,16 +20,12 @@ export const authOptions: NextAuthOptions = {
       }
       return token
     },
-    async session({ session, token, user }) {
+    async session({ session, token }) {
       session.accessToken = token.accessToken as string
       return session
     },
   },
-  pages: {
-    signIn: '/auth/signin',
-    error: '/auth/error',
-  },
-  debug: process.env.NODE_ENV === 'development',
+  debug: true,
 }
 
 export default NextAuth(authOptions)
